@@ -19,6 +19,19 @@ button:hover {
   color: #fff;
 }
 
+.score {
+  display: flex;
+  justify-content: space-around;
+}
+
+.score p {
+  background: #c23866;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 6px 20px;
+  border-radius: 4px;
+}
+
 .card-grid {
   margin-top: 40px;
   display: grid;

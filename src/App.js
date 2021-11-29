@@ -17,14 +17,24 @@ function App() {
     const [score, setScore] = useState(0);
     const [choiceOne, setChoiceOne] = useState(null);
     const [choiceTwo, setChoiceTwo] = useState(null);
+    const [disabled, setDisabled] = useState(false);
+    const [newGame, setNewGame] = useState(false);
 
     //shuffle cards
     const shuffleCards = () => {
         const shuffledCards = [...cardImages, ...cardImages]
-            .sort(() => Math.random - 0.5)
-            .map((card) => ({...card, id: Math.random()}))
+        .sort(() => Math.random() - 0.5)
+        .map((card) => ({...card, id: Math.random()}));
 
+        setChoiceOne(null);
+        setChoiceTwo(null);
         setCards(shuffledCards);
+        setNewGame(true);
+        setTimeout(() => setNewGame(false), 1500);
+        if(turns >= 6) {
+            if(score === 0) setScore(turns);
+            else setScore(Math.min(score, turns));
+        }
         setTurns(0);
     }
 
@@ -39,11 +49,13 @@ function App() {
         setChoiceOne(null);
         setChoiceTwo(null);
         setTurns(prevTurns => prevTurns + 1);
+        setDisabled(false);
     }
 
     // compare 2 selected cards
     useEffect(() => {
         if(choiceOne && choiceTwo) {
+            setDisabled(true);
 
             if(choiceOne.src === choiceTwo.src) {
                 setCards(prevCards => {
@@ -64,12 +76,23 @@ function App() {
         }
     }, [choiceOne, choiceTwo])
 
-    console.log(cards);
+    // start a new game automagically 
+    useEffect(() => {
+        shuffleCards();
+        setNewGame(true);
+        setTimeout(() => setNewGame(false), 1500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <div className="App">
-        <h1>Magic Match</h1>
+        <h1>Magic Memory</h1>
         <button onClick={shuffleCards}>New Game</button>
+
+            <div className="score">
+                <p>Turns: {turns} </p>
+                <p>Best: {score} </p>
+            </div>
 
             <div className="card-grid">
                 {cards.map(card => (
@@ -77,8 +100,9 @@ function App() {
                         key={card.id} 
                         card={card}
                         handleChoice={handleChoice}
-                        flipped={card === choiceOne || card === choiceTwo || card.matched} 
-                        />
+                        flipped={card === choiceOne || card === choiceTwo || card.matched || newGame} 
+                        disabled={disabled}
+                    />
                 ))}
             </div>
         </div>
