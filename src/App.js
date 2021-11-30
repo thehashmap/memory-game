@@ -32,7 +32,7 @@ function App() {
         setCards(shuffledCards);
         setNewGame(false);
         setTimeout(() => setNewGame(true), 200);
-        setTimeout(() => setNewGame(false), 1500);
+        setTimeout(() => setNewGame(false), 2000);
         if(turns >= 6) {
             if(score === 0) setScore(turns);
             else setScore(Math.min(score, turns));
@@ -83,7 +83,7 @@ function App() {
         setTimeout(() => setIsLoading(false), 3000);
         shuffleCards();
         setTimeout(() => setNewGame(true), 3100);
-        setTimeout(() => setNewGame(false), 4600);
+        setTimeout(() => setNewGame(false), 5600);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
