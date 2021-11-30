@@ -9,6 +9,10 @@
   border-radius: 6px;
 }
 
+.back {
+  height: 150%;
+}
+
 /* front of card*/
 .card .front {
   transform: rotateY(90deg);
