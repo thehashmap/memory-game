@@ -19,6 +19,7 @@ function App() {
     const [choiceTwo, setChoiceTwo] = useState(null);
     const [disabled, setDisabled] = useState(false);
     const [newGame, setNewGame] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     //shuffle cards
     const shuffleCards = () => {
@@ -29,7 +30,8 @@ function App() {
         setChoiceOne(null);
         setChoiceTwo(null);
         setCards(shuffledCards);
-        setNewGame(true);
+        setNewGame(false);
+        setTimeout(() => setNewGame(true), 200);
         setTimeout(() => setNewGame(false), 1500);
         if(turns >= 6) {
             if(score === 0) setScore(turns);
@@ -78,9 +80,10 @@ function App() {
 
     // start a new game automagically 
     useEffect(() => {
+        setTimeout(() => setIsLoading(false), 3000);
         shuffleCards();
-        setNewGame(true);
-        setTimeout(() => setNewGame(false), 3000);
+        setTimeout(() => setNewGame(true), 3100);
+        setTimeout(() => setNewGame(false), 4600);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -94,7 +97,9 @@ function App() {
                 <p>Best: {score} </p>
             </div>
 
-            <div className="card-grid">
+            {isLoading && <div className="lds-ripple"><div></div><div></div></div>}
+
+            {!isLoading && <div className="card-grid">
                 {cards.map(card => (
                     <SingleCard 
                         key={card.id} 
@@ -105,6 +110,7 @@ function App() {
                     />
                 ))}
             </div>
+            }
         </div>
     );
 }
