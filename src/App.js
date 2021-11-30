@@ -80,7 +80,7 @@ function App() {
     useEffect(() => {
         shuffleCards();
         setNewGame(true);
-        setTimeout(() => setNewGame(false), 1500);
+        setTimeout(() => setNewGame(false), 3000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
